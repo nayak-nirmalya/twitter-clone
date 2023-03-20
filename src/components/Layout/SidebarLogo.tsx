@@ -9,15 +9,15 @@ const SidebarLogo = () => {
     <div
       onClick={() => router.push("/")}
       className="
-            rounded-full
+            flex
             h-14 w-14
-            p-4 flex
-            items-center
+            cursor-pointer items-center
             justify-center
+            rounded-full
+            p-4
+            transition
             hover:bg-blue-300
             hover:bg-opacity-10
-            cursor-pointer
-            transition
         "
     >
       <BsTwitter size={28} color="white" />

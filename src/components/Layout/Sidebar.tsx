@@ -5,6 +5,7 @@ import { BsHouseFill, BsBellFill } from "react-icons/bs";
 
 import SidebarItem from "./SidebarItem";
 import SidebarLogo from "./SidebarLogo";
+import SidebarTweetButton from "./SidebarTweetButton";
 
 const Sidebar = () => {
   const items = [
@@ -26,7 +27,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="col-span-1 h-full pl-4 pr-1 md:pl-6 md:pr-2 lg:pl-10 lg:pr-0">
+    <div className="col-span-1 h-full pl-4 pr-4 md:pl-6 md:pr-6 lg:pl-10 lg:pr-0">
       <div className="flex flex-col items-end">
         <div className="space-y-2 lg:w-[230px]">
           <SidebarLogo />
@@ -44,6 +45,7 @@ const Sidebar = () => {
             label="Log Out"
             href=""
           />
+          <SidebarTweetButton />
         </div>
       </div>
     </div>
