@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/twitter_icon.ico" />
       </Head>
       <main>
-        <div>Hello World!</div>
+        <div className="text-8xl">Hello World!</div>
       </main>
     </>
   );
