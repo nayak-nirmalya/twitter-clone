@@ -12,18 +12,18 @@ const Sidebar = () => {
     {
       label: "Home",
       href: "/",
-      icon: BsHouseFill,
+      icon: BsHouseFill
     },
     {
       label: "Notifications",
       href: "/notifications",
-      icon: BsBellFill,
+      icon: BsBellFill
     },
     {
       label: "Profiel",
       href: "/users/7008",
-      icon: FaUser,
-    },
+      icon: FaUser
+    }
   ];
 
   return (
