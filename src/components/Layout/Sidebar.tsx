@@ -1,5 +1,6 @@
 import React from "react";
 import { FaUser } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 import { BsHouseFill, BsBellFill } from "react-icons/bs";
 
 import SidebarItem from "./SidebarItem";
@@ -25,7 +26,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="col-span-1 h-full pr-4 md:pr-6">
+    <div className="col-span-1 h-full pl-4 pr-1 md:pl-6 md:pr-2 lg:pl-10 lg:pr-0">
       <div className="flex flex-col items-end">
         <div className="space-y-2 lg:w-[230px]">
           <SidebarLogo />
@@ -37,6 +38,12 @@ const Sidebar = () => {
               icon={item.icon}
             />
           ))}
+          <SidebarItem
+            onClick={() => {}}
+            icon={BiLogOut}
+            label="Log Out"
+            href=""
+          />
         </div>
       </div>
     </div>
