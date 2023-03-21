@@ -29,10 +29,27 @@ model User {
 }
 model Post {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  body String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String @db.ObjectId
+  likedIds String[] @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  comments Comment[]
 }
 
 model Comment {
   id String @id @default(auto()) @map("_id") @db.ObjectId
+  body String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId String @db.ObjectId
+  postId String @db.ObjectId
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 model Notification {
