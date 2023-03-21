@@ -1,1 +1,1 @@
-import swr from "swr";
+import useSWR from "swr";
