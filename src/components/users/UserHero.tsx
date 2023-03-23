@@ -16,9 +16,10 @@ const UserHero: React.FC<UserHeroProps> = ({ userId }) => {
       <div className="relative h-44 bg-neutral-700">
         {fetchedUser?.coverImage && (
           <Image
-            src={fetchedUser.coverImage}
             fill
+            priority
             alt={"Cover Image"}
+            src={fetchedUser.coverImage}
             style={{
               objectFit: "cover"
             }}
