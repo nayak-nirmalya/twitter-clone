@@ -7,7 +7,14 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
+
+const EmptyModal = () => {
+  const { status } = useSession();
+
+  return <>{status === "authenticated" && <EditModal />}</>;
+};
 
 const EditModal = () => {
   const { data: currentUser } = useCurrentUser();
@@ -104,4 +111,4 @@ const EditModal = () => {
   );
 };
 
-export default EditModal;
+export default EmptyModal;
