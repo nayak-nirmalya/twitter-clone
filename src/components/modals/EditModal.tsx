@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useState } from "react";
+import ImageUpload from "../ImageUpload";
 
 const EmptyModal = () => {
   const { status } = useSession();
@@ -77,6 +78,18 @@ const EditModal = () => {
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
+      <ImageUpload
+        disabled={loading}
+        value={profileImage}
+        label="Upload Profile Image."
+        onChange={(image) => setProfileImage(image)}
+      />
+      <ImageUpload
+        disabled={loading}
+        value={coverImage}
+        label="Upload Cover Image."
+        onChange={(image) => setCoverImage(image)}
+      />
       <Input
         value={name}
         placeholder="Name"
