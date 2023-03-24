@@ -6,7 +6,14 @@ import { BsHouseFill, BsBellFill } from "react-icons/bs";
 
 import SidebarItem from "./SidebarItem";
 import SidebarLogo from "./SidebarLogo";
+import useCurrentUser from "@/hooks/useCurrentUser";
 import SidebarTweetButton from "./SidebarTweetButton";
+
+const useCurrentUserID = () => {
+  const { data: currentUser } = useCurrentUser();
+
+  return currentUser?.id;
+};
 
 const Sidebar = () => {
   const { status } = useSession();
@@ -24,8 +31,8 @@ const Sidebar = () => {
       auth: true
     },
     {
-      label: "Profiel",
-      href: "/users/641b1d13c6f8304e21256ff6",
+      label: "Profile",
+      href: `/users/${status}`,
       icon: FaUser,
       auth: true
     }
