@@ -4,6 +4,7 @@ import { BiCalendar } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 
 import useCurrentUser from "@/hooks/useCurrentUser";
+import useEditModal from "@/hooks/useEditModal";
 import useUser from "@/hooks/useUser";
 import Button from "../Button";
 
@@ -13,11 +14,12 @@ interface UserProps {
 
 const EditButton: React.FC<UserProps> = ({ userId }) => {
   const { data: currentUser } = useCurrentUser();
+  const editModal = useEditModal();
 
   return (
     <>
       {currentUser?.id === userId && (
-        <Button secondary label="Edit" onClick={() => {}} />
+        <Button secondary label="Edit" onClick={editModal.onOpen} />
       )}
     </>
   );
