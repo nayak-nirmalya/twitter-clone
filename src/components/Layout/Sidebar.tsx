@@ -9,14 +9,28 @@ import SidebarLogo from "./SidebarLogo";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import SidebarTweetButton from "./SidebarTweetButton";
 
-const useCurrentUserID = () => {
-  const { data: currentUser } = useCurrentUser();
+interface CommonComponentProps {
+  children: React.ReactNode;
+}
 
-  return currentUser?.id;
+const CommonComponent: React.FC<CommonComponentProps> = ({ children }) => {
+  return (
+    <div className="col-span-1 h-full pl-4 pr-4 md:pl-6 md:pr-6 lg:pl-10 lg:pr-0">
+      <div className="flex flex-col items-end">
+        <div className="space-y-2 lg:w-[230px]">
+          <SidebarLogo />
+
+          {children}
+
+          <SidebarTweetButton />
+        </div>
+      </div>
+    </div>
+  );
 };
 
-const Sidebar = () => {
-  const { status } = useSession();
+const SidebarWithSession = () => {
+  const { data: currentUser } = useCurrentUser();
 
   const items = [
     {
@@ -32,39 +46,81 @@ const Sidebar = () => {
     },
     {
       label: "Profile",
-      href: `/users/${status}`,
+      href: `/users/${currentUser?.id}`,
       icon: FaUser,
       auth: true
     }
   ];
 
   return (
-    <div className="col-span-1 h-full pl-4 pr-4 md:pl-6 md:pr-6 lg:pl-10 lg:pr-0">
-      <div className="flex flex-col items-end">
-        <div className="space-y-2 lg:w-[230px]">
-          <SidebarLogo />
-          {items.map((item, index) => (
-            <SidebarItem
-              key={index}
-              label={item.label}
-              href={item.href}
-              icon={item.icon}
-              auth={item.auth}
-            />
-          ))}
-          {status === "authenticated" && (
-            <SidebarItem
-              onClick={() => signOut()}
-              icon={BiLogOut}
-              label="Log Out"
-              href=""
-            />
-          )}
+    <CommonComponent>
+      {items.map((item, index) => (
+        <SidebarItem
+          key={index}
+          label={item.label}
+          href={item.href}
+          icon={item.icon}
+          auth={item.auth}
+        />
+      ))}
 
-          <SidebarTweetButton />
-        </div>
-      </div>
-    </div>
+      <SidebarItem
+        onClick={() => signOut()}
+        icon={BiLogOut}
+        label="Log Out"
+        href=""
+      />
+    </CommonComponent>
+  );
+};
+
+const SidebarWithoutSession = () => {
+  const items = [
+    {
+      label: "Home",
+      href: "/",
+      icon: BsHouseFill
+    },
+    {
+      label: "Notifications",
+      href: "/notifications",
+      icon: BsBellFill,
+      auth: true
+    },
+    {
+      label: "Profile",
+      href: `/users/`,
+      icon: FaUser,
+      auth: true
+    }
+  ];
+
+  return (
+    <CommonComponent>
+      {items.map((item, index) => (
+        <SidebarItem
+          key={index}
+          label={item.label}
+          href={item.href}
+          icon={item.icon}
+          auth={item.auth}
+        />
+      ))}
+    </CommonComponent>
+  );
+};
+
+const Sidebar = () => {
+  const { status } = useSession();
+
+  return (
+    <>
+      {status === "authenticated" ? (
+        <SidebarWithSession />
+      ) : (
+        <SidebarWithoutSession />
+      )}
+    </>
   );
 };
 
