@@ -28,7 +28,7 @@ const UserHero: React.FC<UserHeroProps> = ({ userId }) => {
         <div
           className="
                 absolute
-                -bottom-16
+                -bottom-12
                 left-4
             "
         >
