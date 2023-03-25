@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
-import { AiOutlineMessage } from "react-icons/ai";
 import React, { useCallback, useMemo } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
+import { AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 
 import Avatar from "../Avatar";
 
@@ -92,6 +92,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
           </div>
           <div className="mt-1 text-white">{post.body}</div>
           <div className="mt-3 flex flex-row items-center gap-10">
+            {/* COMMENTS */}
             <div
               className="
                     flex
@@ -105,6 +106,24 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
                 "
             >
               <AiOutlineMessage size={20} />
+              <p>{post.comments?.length || 0}</p>
+            </div>
+
+            {/* LIKES */}
+            <div
+              onClick={onLike}
+              className="
+                    flex
+                    cursor-pointer
+                    flex-row
+                    items-center
+                    gap-2
+                    text-neutral-500
+                    transition
+                    hover:text-red-500
+                "
+            >
+              <AiOutlineHeart size={20} />
               <p>{post.comments?.length || 0}</p>
             </div>
           </div>
