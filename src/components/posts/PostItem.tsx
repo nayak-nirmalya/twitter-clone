@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { AiOutlineMessage } from "react-icons/ai";
 import React, { useCallback, useMemo } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
 
@@ -90,6 +91,23 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             <span className="text-sm text-neutral-500">{createdAt}</span>
           </div>
           <div className="mt-1 text-white">{post.body}</div>
+          <div className="mt-3 flex flex-row items-center gap-10">
+            <div
+              className="
+                    flex
+                    cursor-pointer
+                    flex-row
+                    items-center
+                    gap-2
+                    text-neutral-500
+                    transition
+                    hover:text-sky-500
+                "
+            >
+              <AiOutlineMessage size={20} />
+              <p>{post.comments?.length || 0}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
