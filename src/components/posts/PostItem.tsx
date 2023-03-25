@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import useLoginModal from "@/hooks/useLoginModal";
 import useCurrentUser from "@/hooks/useCurrentUser";
@@ -22,6 +23,29 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
     },
     [router, post.user.id]
   );
+
+  const goToPost = useCallback(
+    (event: any) => {
+      event.stopPropagation();
+      router.push(`/posts/${post.id}`);
+    },
+    [router, post.id]
+  );
+
+  const onLike = useCallback(
+    (event: any) => {
+      event.stopPropagation();
+
+      loginModal.onOpen();
+    },
+    [loginModal]
+  );
+
+  const createdAt = useMemo(() => {
+    if (!post?.createdAt) return null;
+
+    return formatDistanceToNowStrict(new Date(post.createdAt));
+  }, [post?.createdAt]);
 
   return <div>PostItem</div>;
 };
