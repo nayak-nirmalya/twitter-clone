@@ -90,7 +90,9 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             </span>
             <span className="text-sm text-neutral-500">{createdAt}</span>
           </div>
-          <div className="mt-1 text-white">{post.body}</div>
+          <div className="mt-1 max-w-xs text-white transition md:max-w-lg lg:max-w-2xl">
+            {post.body}
+          </div>
           <div className="mt-3 flex flex-row items-center gap-10">
             {/* COMMENTS */}
             <div
