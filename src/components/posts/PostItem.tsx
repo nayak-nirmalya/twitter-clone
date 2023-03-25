@@ -17,7 +17,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
-  const { data: currentUser } = useCurrentUser();
+  // const { data: currentUser } = useCurrentUser();
 
   const goToUser = useCallback(
     (event: any) => {

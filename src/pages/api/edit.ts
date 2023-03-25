@@ -29,9 +29,9 @@ export default async function handler(
       }
     });
 
-    return res.status(200).send(updatedUser);
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
-    res.status(400).end();
+    return res.status(400).end();
   }
 }
