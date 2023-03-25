@@ -1,5 +1,7 @@
-import Header from "@/components/Header";
 import Head from "next/head";
+
+import Form from "@/components/Form";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
@@ -12,6 +14,7 @@ export default function Home() {
       </Head>
       <main>
         <Header label="Home" />
+        <Form placeholder="What's Happening?" />
       </main>
     </>
   );
