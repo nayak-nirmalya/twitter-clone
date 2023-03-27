@@ -1,9 +1,10 @@
 import { format } from "date-fns";
-import React, { useMemo } from "react";
 import { BiCalendar } from "react-icons/bi";
 import { useSession } from "next-auth/react";
+import React, { useCallback, useMemo } from "react";
 
 import useCurrentUser from "@/hooks/useCurrentUser";
+import useLoginModal from "@/hooks/useLoginModal";
 import useEditModal from "@/hooks/useEditModal";
 import useFollow from "@/hooks/useFollow";
 import useUser from "@/hooks/useUser";
@@ -32,7 +33,12 @@ const EditOrFollowButton: React.FC<UserProps> = ({ userId }) => {
 
 const UserBio: React.FC<UserProps> = ({ userId }) => {
   const { data: fetchedUser } = useUser(userId);
+  const loginModal = useLoginModal();
   const { status } = useSession();
+
+  const onClick = useCallback(() => {
+    loginModal.onOpen();
+  }, [loginModal]);
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) return null;
@@ -46,7 +52,7 @@ const UserBio: React.FC<UserProps> = ({ userId }) => {
         {status === "authenticated" ? (
           <EditOrFollowButton userId={userId} />
         ) : (
-          <Button onClick={() => {}} label="Follow" secondary />
+          <Button onClick={onClick} label="Follow" secondary />
         )}
       </div>
       <div className="mt-8 px-4">
