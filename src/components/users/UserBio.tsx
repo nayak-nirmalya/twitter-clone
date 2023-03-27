@@ -25,7 +25,12 @@ const EditOrFollowButton: React.FC<UserProps> = ({ userId }) => {
       {currentUser?.id === userId ? (
         <Button secondary label="Edit" onClick={editModal.onOpen} />
       ) : (
-        <Button onClick={toggleFollow} label="Follow" secondary />
+        <Button
+          onClick={toggleFollow}
+          label={isFollowing ? "Unfollow" : "Follow"}
+          secondary={!isFollowing}
+          outline={isFollowing}
+        />
       )}
     </>
   );
