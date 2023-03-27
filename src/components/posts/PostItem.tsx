@@ -72,7 +72,12 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
           >
             <p
               onClick={goToUser}
-              className="cursor-pointer font-semibold text-white hover:underline"
+              className="
+                cursor-pointer 
+                font-semibold 
+                text-white 
+                hover:underline
+              "
             >
               {post.user.name}
             </p>
@@ -90,7 +95,15 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             </span>
             <span className="text-sm text-neutral-500">{createdAt}</span>
           </div>
-          <div className="mt-1 max-w-xs text-white transition md:max-w-lg lg:max-w-2xl">
+          <div
+            className="
+              mt-1 max-w-xs 
+              text-white 
+              transition 
+              md:max-w-lg 
+              lg:max-w-2xl
+            "
+          >
             {post.body}
           </div>
           <div className="mt-3 flex flex-row items-center gap-10">
