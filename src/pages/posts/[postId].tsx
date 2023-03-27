@@ -7,6 +7,7 @@ import usePost from "@/hooks/usePost";
 
 import Header from "@/components/Header";
 import PostItem from "@/components/posts/PostItem";
+import Form from "@/components/Form";
 
 const PostView = () => {
   const router = useRouter();
@@ -26,13 +27,18 @@ const PostView = () => {
     <>
       <Head>
         <title>Tweet/Post - Twitter</title>
-        <meta name="description" content="User Profile Page." />
+        <meta name="description" content="Tweet & Comments" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/twitter_icon.ico" />
       </Head>
 
       <Header showBackArrow label="Tweet" />
       <PostItem post={fetchedPost} />
+      <Form
+        postId={postId as string}
+        isComment
+        placeholder="Tweet Your Reply."
+      />
     </>
   );
 };
