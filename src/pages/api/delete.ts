@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "@/libs/prismadb";
+import serverAuth from "@/libs/serverAuth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,9 +11,21 @@ export default async function handler(
 
   try {
     const { postId } = req.body;
+    const { currentUser } = await serverAuth(req);
 
     if (!postId || typeof postId !== "string")
       throw new Error("Invalid Post ID!");
+
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postId
+      },
+      select: {
+        userId: true
+      }
+    });
+
+    if (post?.userId !== currentUser.id) throw new Error("UnAuthorized!");
 
     if (req.method === "DELETE") {
       const post = await prisma.post.delete({
