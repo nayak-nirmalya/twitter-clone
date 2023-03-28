@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useCallback } from "react";
+import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 import usePost from "./usePost";
@@ -12,6 +13,9 @@ const useDeletePost = ({
   postId: string;
   userId?: string;
 }) => {
+  const router = useRouter();
+  const { asPath } = useRouter();
+
   const { mutate: mutateFetchedPost } = usePost(postId);
   const { mutate: mutateFetchedPosts } = usePosts(userId);
 
@@ -20,8 +24,13 @@ const useDeletePost = ({
       const request = () => axios.delete("/api/delete", { data: { postId } });
 
       await request();
-      mutateFetchedPost();
-      mutateFetchedPosts();
+
+      if (asPath.startsWith("/posts/")) {
+        router.back();
+      } else {
+        mutateFetchedPost();
+        mutateFetchedPosts();
+      }
 
       toast.success("Tweet Deleted!");
     } catch (error) {
