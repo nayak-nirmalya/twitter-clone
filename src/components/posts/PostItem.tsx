@@ -8,6 +8,7 @@ import Avatar from "../Avatar";
 import LikeItem from "./LikeItem";
 
 import useLoginModal from "@/hooks/useLoginModal";
+import DeleteItem from "./DeleteItem";
 
 interface PostItemProps {
   post: Record<string, any>;
@@ -135,6 +136,9 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
                 <p>{post.likedIds?.length || 0}</p>
               </div>
             )}
+
+            {/* DELETE */}
+            {status === "authenticated" && <DeleteItem />}
           </div>
         </div>
       </div>
