@@ -5,6 +5,7 @@ import React, { useCallback, useState } from "react";
 import Avatar from "./Avatar";
 import Button from "./Button";
 
+import usePost from "@/hooks/usePost";
 import usePosts from "@/hooks/usePosts";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
@@ -21,6 +22,7 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({
 }) => {
   const { data: currentUser } = useCurrentUser();
   const { mutate: mutatePosts } = usePosts();
+  const { mutate: mutatePost } = usePost(postId as string);
 
   const [body, setBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +42,7 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({
       }
 
       setBody("");
+      mutatePost();
       mutatePosts();
     } catch (error) {
       console.error(error);
@@ -47,7 +50,7 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({
     } finally {
       setIsLoading(false);
     }
-  }, [body, postId, isComment, mutatePosts]);
+  }, [body, postId, isComment, mutatePost, mutatePosts]);
 
   return (
     <div className="flex flex-row gap-4">
