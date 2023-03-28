@@ -9,6 +9,7 @@ import LikeItem from "./LikeItem";
 
 import useLoginModal from "@/hooks/useLoginModal";
 import DeleteItem from "./DeleteItem";
+import EditItem from "./EditItem";
 
 interface PostItemProps {
   post: Record<string, any>;
@@ -135,6 +136,11 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
                 <AiOutlineHeart size={20} />
                 <p>{post.likedIds?.length || 0}</p>
               </div>
+            )}
+
+            {/* EDIT */}
+            {status === "authenticated" && (
+              <EditItem post={post} userId={userId} />
             )}
 
             {/* DELETE */}
