@@ -1,8 +1,10 @@
 import React, { useCallback } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 
-import useDeletePost from "@/hooks/useDeletePost";
+import PostEditModal from "../modals/PostEditModal";
+
 import useCurrentUser from "@/hooks/useCurrentUser";
+import usePostEditModal from "@/hooks/usePostEditModal";
 
 interface EditItemProps {
   post: Record<string, any>;
@@ -11,32 +13,35 @@ interface EditItemProps {
 
 const EditItem: React.FC<EditItemProps> = ({ post, userId }) => {
   const { data: currentUser } = useCurrentUser();
-  const { deletePost } = useDeletePost({ postId: post.id, userId });
+  const postEditModal = usePostEditModal();
 
-  const onDelete = useCallback(
+  const onEdit = useCallback(
     (event: any) => {
       event.stopPropagation();
-      deletePost();
+      postEditModal.onOpen();
     },
-    [currentUser, deletePost]
+    [postEditModal]
   );
 
   return (
-    <div
-      onClick={onDelete}
-      className="
+    <>
+      <PostEditModal post={post} />
+      <div
+        onClick={onEdit}
+        className="
         flex
-        cursor-pointer
-        flex-row
-        items-center
-        gap-2
-        text-neutral-500
-        transition
-        hover:text-green-500
-    "
-    >
-      {post.userId === currentUser?.id && <AiOutlineEdit size={20} />}
-    </div>
+          cursor-pointer
+          flex-row
+          items-center
+          gap-2
+          text-neutral-500
+          transition
+          hover:text-green-500
+          "
+      >
+        {post.userId === currentUser?.id && <AiOutlineEdit size={20} />}
+      </div>
+    </>
   );
 };
 

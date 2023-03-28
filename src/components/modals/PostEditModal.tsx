@@ -1,42 +1,43 @@
 import Input from "../Input";
 import Modal from "../Modal";
 
+import usePost from "@/hooks/usePost";
 import usePosts from "@/hooks/usePosts";
 import usePostEditModal from "@/hooks/usePostEditModal";
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import React, { useCallback, useEffect, useState } from "react";
-import usePost from "@/hooks/usePost";
 
 interface PostEditModalProps {
-  postId: string;
+  post: Record<string, any>;
 }
 
-const PostEditModal: React.FC<PostEditModalProps> = ({ postId }) => {
+const PostEditModal: React.FC<PostEditModalProps> = ({ post }) => {
   const postEditModal = usePostEditModal();
   const { mutate: mutatePosts } = usePosts();
-  const { data: fetchedPost, mutate: mutatePost } = usePost(postId);
+  const { data: fetchedPost, mutate: mutatePost } = usePost(post.id);
 
-  const [post, setPost] = useState("");
+  const [postBody, setPostBody] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setPost(fetchedPost?.body);
+    setPostBody(fetchedPost?.body);
   }, [fetchedPost?.body]);
-
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = useCallback(async () => {
     try {
       setLoading(true);
 
-      await axios.patch("/api/edit", {
-        post
+      await axios.patch("/api/editPost", {
+        postId: post.id,
+        postBody: post.body
       });
+
       mutatePost();
       mutatePosts();
 
-      toast.success("Updated!");
+      toast.success("Tweet Updated!");
 
       postEditModal.onClose();
     } catch (error) {
@@ -45,15 +46,18 @@ const PostEditModal: React.FC<PostEditModalProps> = ({ postId }) => {
     } finally {
       setLoading(false);
     }
-  }, [post, postEditModal, mutatePost, mutatePosts]);
+  }, [post.id, post.body, postEditModal, mutatePost, mutatePosts]);
 
   const bodyContent = (
     <div className="flex flex-col">
       <Input
-        value={post}
-        placeholder="Tweet"
+        value={postBody}
+        placeholder="Edit Tweet"
         disabled={loading}
-        onChange={(event) => setPost(event.target.value)}
+        onChange={(event) => {
+          event.stopPropagation();
+          setPostBody(event.target.value);
+        }}
       />
     </div>
   );
