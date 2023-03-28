@@ -138,7 +138,9 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             )}
 
             {/* DELETE */}
-            {status === "authenticated" && <DeleteItem />}
+            {status === "authenticated" && (
+              <DeleteItem post={post} userId={userId} />
+            )}
           </div>
         </div>
       </div>
