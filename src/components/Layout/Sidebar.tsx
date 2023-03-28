@@ -22,7 +22,8 @@ const SidebarWithSession = () => {
       label: "Notifications",
       href: "/notifications",
       icon: BsBellFill,
-      auth: true
+      auth: true,
+      alert: currentUser?.hasNotification
     },
     {
       label: "Profile",
@@ -41,6 +42,7 @@ const SidebarWithSession = () => {
           href={item.href}
           icon={item.icon}
           auth={item.auth}
+          alert={item.alert}
         />
       ))}
     </>

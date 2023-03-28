@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 import { IconType } from "react-icons";
+import { BsDot } from "react-icons/bs";
 
 import useLoginModal from "@/hooks/useLoginModal";
 
@@ -11,6 +12,7 @@ interface SidebarItemProps {
   icon: IconType;
   onClick?: () => void;
   auth?: boolean;
+  alert?: boolean;
 }
 
 const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -18,7 +20,8 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
   href,
   icon: Icon,
   onClick,
-  auth
+  auth,
+  alert
 }) => {
   const router = useRouter();
   const { status } = useSession();
@@ -51,6 +54,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
         "
       >
         <Icon size={28} color="white" />
+        {alert ? (
+          <BsDot size={70} className="absolute -top-4 left-0 text-sky-500" />
+        ) : null}
       </div>
       <div
         className="
@@ -68,6 +74,9 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
       >
         <Icon size={24} color="white" />
         <p className="hidden text-xl text-white lg:block">{label}</p>
+        {alert ? (
+          <BsDot size={70} className="absolute -top-4 left-0 text-sky-500" />
+        ) : null}
       </div>
     </div>
   );
