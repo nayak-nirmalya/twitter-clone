@@ -9,8 +9,8 @@ import useCurrentUser from "./useCurrentUser";
 
 const useLike = ({ postId, userId }: { postId: string; userId?: string }) => {
   const { data: currentUser } = useCurrentUser();
-  const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(postId);
   const { mutate: mutateFetchedPosts } = usePosts(userId);
+  const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(postId);
 
   const loginModal = useLoginModal();
 
@@ -27,7 +27,7 @@ const useLike = ({ postId, userId }: { postId: string; userId?: string }) => {
       let request;
 
       if (hasLiked) {
-        request = () => axios.delete("/api/like", { data: postId });
+        request = () => axios.delete("/api/like", { data: { postId } });
       } else {
         request = () => axios.post("/api/like", { postId });
       }
@@ -36,7 +36,7 @@ const useLike = ({ postId, userId }: { postId: string; userId?: string }) => {
       mutateFetchedPost();
       mutateFetchedPosts();
 
-      toast.success("Liked!");
+      toast.success(hasLiked ? "Removed Like!" : "Liked!");
     } catch (error) {
       console.error(error);
       toast.error("Something Went Wrong!");
