@@ -24,6 +24,42 @@ export default async function handler(
       }
     });
 
+    try {
+      const post = await prisma.post.findUnique({
+        where: {
+          id: postId
+        }
+      });
+
+      if (post?.userId) {
+        const userName: { name: string | null } | null =
+          await prisma.user.findUnique({
+            where: {
+              id: post?.userId
+            },
+            select: { name: true }
+          });
+
+        await prisma.notification.create({
+          data: {
+            body: `${userName?.name} Replied to Your Tweet!`,
+            userId: post.userId
+          }
+        });
+
+        await prisma.user.update({
+          where: {
+            id: post.userId
+          },
+          data: {
+            hasNotification: true
+          }
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
     return res.status(200).json(comment);
   } catch (error) {
     console.error(error);
