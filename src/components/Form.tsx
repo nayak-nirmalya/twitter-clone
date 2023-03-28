@@ -22,7 +22,11 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   return (
     <div className="border-b-[1px] border-neutral-500 px-5 py-2">
       {status === "authenticated" ? (
-        <FormAfterLogin placeholder={placeholder} />
+        <FormAfterLogin
+          placeholder={placeholder}
+          isComment={isComment}
+          postId={postId}
+        />
       ) : (
         <div className="py-8">
           <h1

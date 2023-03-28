@@ -10,9 +10,15 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 
 export interface FormAfterLoginProps {
   placeholder: string;
+  isComment?: boolean;
+  postId?: string;
 }
 
-const FormAfterLogin: React.FC<FormAfterLoginProps> = ({ placeholder }) => {
+const FormAfterLogin: React.FC<FormAfterLoginProps> = ({
+  placeholder,
+  isComment,
+  postId
+}) => {
   const { data: currentUser } = useCurrentUser();
   const { mutate: mutatePosts } = usePosts();
 
@@ -23,9 +29,15 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({ placeholder }) => {
     try {
       setIsLoading(true);
 
-      await axios.post("/api/posts", { body });
+      const url = isComment ? `/api/comments/?postId=${postId}` : "/api/posts";
 
-      toast.success("Tweet Created!");
+      await axios.post(url, { body });
+
+      if (isComment) {
+        toast.success("Comment Created!");
+      } else {
+        toast.success("Tweet Created!");
+      }
 
       setBody("");
       mutatePosts();
@@ -35,7 +47,7 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({ placeholder }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [body, mutatePosts]);
+  }, [body, postId, isComment, mutatePosts]);
 
   return (
     <div className="flex flex-row gap-4">
