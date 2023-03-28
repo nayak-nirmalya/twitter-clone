@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import React, { useCallback, useMemo } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
-import { AiOutlineHeart, AiFillHeart, AiOutlineMessage } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineMessage } from "react-icons/ai";
 
 import Avatar from "../Avatar";
+import LikeItem from "./LikeItem";
 
-import useLike from "@/hooks/useLike";
 import useLoginModal from "@/hooks/useLoginModal";
-import useCurrentUser from "@/hooks/useCurrentUser";
 
 interface PostItemProps {
   post: Record<string, any>;
@@ -16,13 +16,8 @@ interface PostItemProps {
 
 const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
   const router = useRouter();
+  const { status } = useSession();
   const loginModal = useLoginModal();
-
-  const { data: currentUser } = useCurrentUser();
-  const { hasLiked, toggleLike } = useLike({
-    postId: post.id,
-    userId
-  });
 
   const goToUser = useCallback(
     (event: any) => {
@@ -40,24 +35,11 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
     [router, post.id]
   );
 
-  const onLike = useCallback(
-    (event: any) => {
-      event.stopPropagation();
-
-      if (!currentUser) return loginModal.onOpen();
-
-      toggleLike();
-    },
-    [loginModal, currentUser, toggleLike]
-  );
-
   const createdAt = useMemo(() => {
     if (!post?.createdAt) return null;
 
     return formatDistanceToNowStrict(new Date(post.createdAt));
   }, [post?.createdAt]);
-
-  const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
 
   return (
     <div
@@ -74,11 +56,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
       <div className="flex flex-row items-start gap-3">
         <Avatar userId={post.user.id} />
         <div>
-          <div
-            className="
-                    flex flex-row items-center gap-2
-                "
-          >
+          <div className="flex flex-row items-center gap-2">
             <p
               onClick={goToUser}
               className="
@@ -134,9 +112,15 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             </div>
 
             {/* LIKES */}
-            <div
-              onClick={onLike}
-              className="
+            {status === "authenticated" ? (
+              <LikeItem post={post} userId={userId} />
+            ) : (
+              <div
+                onClick={(event) => {
+                  event.stopPropagation();
+                  loginModal.onOpen();
+                }}
+                className="
                     flex
                     cursor-pointer
                     flex-row
@@ -146,10 +130,11 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
                     transition
                     hover:text-red-500
                 "
-            >
-              <LikeIcon size={20} color={hasLiked ? "red" : ""} />
-              <p>{post.likedIds?.length || 0}</p>
-            </div>
+              >
+                <AiOutlineHeart size={20} />
+                <p>{post.likedIds?.length || 0}</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
