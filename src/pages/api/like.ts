@@ -39,9 +39,17 @@ export default async function handler(
         });
 
         if (post?.userId) {
+          const userName: { name: string | null } | null =
+            await prisma.user.findUnique({
+              where: {
+                id: post?.userId
+              },
+              select: { name: true }
+            });
+
           await prisma.notification.create({
             data: {
-              body: "Someone Liked Your Tweet!",
+              body: `${userName?.name} Liked Your Tweet!`,
               userId: post.userId
             }
           });
