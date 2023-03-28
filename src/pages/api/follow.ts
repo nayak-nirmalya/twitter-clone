@@ -27,7 +27,37 @@ export default async function handler(
 
     let updatedFollowindIds = [...(user.followingIds || [])];
 
-    if (req.method === "POST") updatedFollowindIds.push(userId);
+    if (req.method === "POST") {
+      updatedFollowindIds.push(userId);
+
+      try {
+        const userName: { name: string | null } | null =
+          await prisma.user.findUnique({
+            where: {
+              id: userId
+            },
+            select: { name: true }
+          });
+
+        await prisma.notification.create({
+          data: {
+            body: `${userName?.name} Followed You!`,
+            userId
+          }
+        });
+
+        await prisma.user.update({
+          where: {
+            id: userId
+          },
+          data: {
+            hasNotification: true
+          }
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     if (req.method === "DELETE") {
       updatedFollowindIds = updatedFollowindIds.filter(
