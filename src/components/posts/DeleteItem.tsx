@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
+import useDeletePost from "@/hooks/useDeletePost";
 import useCurrentUser from "@/hooks/useCurrentUser";
 
 interface DeleteItemProps {
@@ -10,12 +11,19 @@ interface DeleteItemProps {
 
 const DeleteItem: React.FC<DeleteItemProps> = ({ post, userId }) => {
   const { data: currentUser } = useCurrentUser();
+  const { deletePost } = useDeletePost({ postId: post.id, userId });
+
+  const onDelete = useCallback(
+    (event: any) => {
+      event.stopPropagation();
+      deletePost();
+    },
+    [currentUser, deletePost]
+  );
 
   return (
     <div
-      onClick={(event) => {
-        event.stopPropagation();
-      }}
+      onClick={onDelete}
       className="
         flex
         cursor-pointer
