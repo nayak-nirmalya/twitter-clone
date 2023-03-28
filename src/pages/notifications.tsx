@@ -4,6 +4,7 @@ import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 
 import Header from "@/components/Header";
+import NotificationsFeed from "@/components/NotificationsFeed";
 
 export async function getServerSideProps(context: NextPageContext) {
   const session = await getSession(context);
@@ -34,6 +35,7 @@ const Notifications = () => {
         <link rel="icon" href="/twitter_icon.ico" />
       </Head>
       <Header label="Notifications" showBackArrow />
+      <NotificationsFeed />
     </>
   );
 };
