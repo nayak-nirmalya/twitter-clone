@@ -11,9 +11,15 @@ interface FormProps {
   placeholder: string;
   isComment?: boolean;
   postId?: string;
+  title?: string;
 }
 
-const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
+const Form: React.FC<FormProps> = ({
+  placeholder,
+  isComment,
+  postId,
+  title
+}) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -38,7 +44,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                 text-white
             "
           >
-            Welcome to Twitter!
+            {title || "Welcome to Twitter!"}
           </h1>
           <div className="flex flex-row items-center justify-center gap-4">
             <Button label="Log In" onClick={loginModal.onOpen} />

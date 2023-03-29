@@ -39,6 +39,7 @@ const PostView = () => {
         postId={postId as string}
         isComment
         placeholder="Tweet Your Reply."
+        title="Log In / Register to Reply."
       />
       <CommentFeed comments={fetchedPost?.comments} />
     </>
