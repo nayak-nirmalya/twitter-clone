@@ -9,14 +9,11 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import React, { useCallback, useEffect, useState } from "react";
 
-interface PostEditModalProps {
-  post: Record<string, any>;
-}
-
-const PostEditModal: React.FC<PostEditModalProps> = ({ post }) => {
+const PostEditModal: React.FC = () => {
   const postEditModal = usePostEditModal();
+  const postId = postEditModal.postId;
   const { mutate: mutatePosts } = usePosts();
-  const { data: fetchedPost, mutate: mutatePost } = usePost(post.id);
+  const { data: fetchedPost, mutate: mutatePost } = usePost(postId);
 
   const [postBody, setPostBody] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,8 +27,10 @@ const PostEditModal: React.FC<PostEditModalProps> = ({ post }) => {
       setLoading(true);
 
       await axios.patch("/api/editPost", {
-        postId: post.id,
-        postBody: post.body
+        data: {
+          postId,
+          postBody
+        }
       });
 
       mutatePost();
@@ -46,19 +45,21 @@ const PostEditModal: React.FC<PostEditModalProps> = ({ post }) => {
     } finally {
       setLoading(false);
     }
-  }, [post.id, post.body, postEditModal, mutatePost, mutatePosts]);
+  }, [postId, postBody, postEditModal, setLoading, mutatePost, mutatePosts]);
 
   const bodyContent = (
     <div className="flex flex-col">
-      <Input
-        value={postBody}
-        placeholder="Edit Tweet"
-        disabled={loading}
-        onChange={(event) => {
-          event.stopPropagation();
-          setPostBody(event.target.value);
-        }}
-      />
+      {postBody && (
+        <Input
+          value={postBody}
+          placeholder="Edit Tweet"
+          disabled={loading}
+          onChange={(event) => {
+            event.stopPropagation();
+            setPostBody(event.target.value);
+          }}
+        />
+      )}
     </div>
   );
 

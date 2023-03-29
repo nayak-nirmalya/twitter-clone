@@ -139,9 +139,7 @@ const PostItem: React.FC<PostItemProps> = ({ post, userId }) => {
             )}
 
             {/* EDIT */}
-            {status === "authenticated" && (
-              <EditItem post={post} userId={userId} />
-            )}
+            {status === "authenticated" && <EditItem post={post} />}
 
             {/* DELETE */}
             {status === "authenticated" && (

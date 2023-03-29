@@ -10,7 +10,7 @@ export default async function handler(
   if (req.method !== "PATCH") return res.status(405).end();
 
   try {
-    const { postId, postBody } = req.body;
+    const { postId, postBody } = req.body.data;
     const { currentUser } = await serverAuth(req);
 
     if (
