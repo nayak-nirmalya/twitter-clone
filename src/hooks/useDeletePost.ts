@@ -37,7 +37,7 @@ const useDeletePost = ({
       console.error(error);
       toast.error("Something Went Wrong!");
     }
-  }, [postId, mutateFetchedPost, mutateFetchedPosts]);
+  }, [asPath, router, postId, mutateFetchedPost, mutateFetchedPosts]);
 
   return {
     deletePost

@@ -18,7 +18,7 @@ const EditItem: React.FC<EditItemProps> = ({ post }) => {
       postEditModal.setPostId(post.id);
       postEditModal.onOpen();
     },
-    [postEditModal]
+    [post.id, postEditModal]
   );
 
   return (

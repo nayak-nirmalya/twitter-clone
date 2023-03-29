@@ -18,7 +18,7 @@ const DeleteItem: React.FC<DeleteItemProps> = ({ post, userId }) => {
       event.stopPropagation();
       deletePost();
     },
-    [currentUser, deletePost]
+    [deletePost]
   );
 
   return (

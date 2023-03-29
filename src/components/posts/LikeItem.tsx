@@ -21,7 +21,7 @@ const LikeItem: React.FC<LikeItemProps> = ({ post, userId }) => {
       event.stopPropagation();
       toggleLike();
     },
-    [currentUser, toggleLike]
+    [toggleLike]
   );
 
   return (
