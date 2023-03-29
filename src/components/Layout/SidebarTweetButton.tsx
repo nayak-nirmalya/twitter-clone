@@ -14,6 +14,10 @@ const SidebarTweetButton = () => {
     if (status !== "authenticated") {
       loginModal.onOpen();
     } else {
+      setTimeout(function () {
+        document?.getElementById("myTextarea")?.focus();
+      }, 1000);
+
       router.push("/");
     }
   }, [loginModal, status, router]);

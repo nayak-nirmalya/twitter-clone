@@ -59,6 +59,7 @@ const FormAfterLogin: React.FC<FormAfterLoginProps> = ({
       </div>
       <div className="w-full">
         <textarea
+          id="myTextarea"
           disabled={isLoading}
           onChange={(event) => setBody(event.target.value)}
           value={body}
